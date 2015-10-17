@@ -1,5 +1,6 @@
 import logging
 import socket
+from commands import parseCommand
 from threading import Thread
 
 
@@ -17,7 +18,8 @@ class Server(Thread):
         while True:
             data = self.socket.recv(64)  # buffer size is 64 bytes
             if data is not None:
-                logger.debug("Received {0}".format(data))
+                cmd = parseCommand(data)
+                logger.debug("Received {0}".format(cmd))
 
 
 if __name__ == "__main__":
