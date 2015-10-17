@@ -26,6 +26,9 @@ class Command(object):
         self.param = param
         self.group = group
 
+    def getBytes(self):
+        return [self.head, self.param, 0x55]
+
     def __repr__(self):
         return "{0:=#04x} {1:=#04x} {2:=#04x} ({3})".format(self.head, self.param, 0x55, self.__class__.__name__)
 
@@ -52,32 +55,32 @@ class Group1OffCommand(Command):
 
 class Group2OnCommand(Command):
     def __init__(self):
-        Command.__init__(self, 0x45, 0x0, 2)
+        Command.__init__(self, 0x47, 0x0, 2)
 
 
 class Group2OffCommand(Command):
     def __init__(self):
-        Command.__init__(self, 0x46, 0x0, 2)
+        Command.__init__(self, 0x48, 0x0, 2)
 
 
 class Group3OnCommand(Command):
     def __init__(self):
-        Command.__init__(self, 0x45, 0x0, 3)
+        Command.__init__(self, 0x49, 0x0, 3)
 
 
 class Group3OffCommand(Command):
     def __init__(self):
-        Command.__init__(self, 0x46, 0x0, 3)
+        Command.__init__(self, 0x4A, 0x0, 3)
 
 
 class Group4OnCommand(Command):
     def __init__(self):
-        Command.__init__(self, 0x45, 0x0, 4)
+        Command.__init__(self, 0x4B, 0x0, 4)
 
 
 class Group4OffCommand(Command):
     def __init__(self):
-        Command.__init__(self, 0x46, 0x0, 4)
+        Command.__init__(self, 0x4C, 0x0, 4)
 
 
 class BrightnessCommand(Command):
