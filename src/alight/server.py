@@ -1,5 +1,9 @@
+import logging
 import socket
 from threading import Thread
+
+
+logger = logging.getLogger("Server")
 
 
 class Server(Thread):
@@ -11,10 +15,11 @@ class Server(Thread):
 
     def run(self):
         while True:
-            data, addr = self.socket.recvfrom(64)  # buffer size is 64 bytes
+            data = self.socket.recv(64)  # buffer size is 64 bytes
             if data is not None:
-                print data, addr
+                logger.debug("Received {0}".format(data))
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.DEBUG)
     Server().start()
