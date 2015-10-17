@@ -23,6 +23,6 @@ class Zones(object):
         self.activeZone = 0
 
 
-class ZoneConstants(object):
+class ZoneConstants(Enum):
     ALL = 0
     ACTIVE = -1

@@ -1,4 +1,4 @@
-from alight.state import ZoneConstants
+from state import ZoneConstants
 
 
 def parseCommand(cmd):
