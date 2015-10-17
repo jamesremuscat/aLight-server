@@ -89,6 +89,11 @@ class HueCommand(Command):
     def __init__(self, hueHex):
         Command.__init__(self, 0x40, hueHex, ZoneConstants.ACTIVE)
 
+    @staticmethod
+    def fromHueValue(hue):
+        miHue = int(round(((250 - hue) % 360) * 256 / 360))
+        return HueCommand(miHue)
+
 
 class InvalidCommandException(Exception):
     pass
