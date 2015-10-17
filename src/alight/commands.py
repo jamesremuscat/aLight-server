@@ -1,4 +1,8 @@
+import logging
 from state import ZoneConstants
+
+
+logger = logging.getLogger("commands")
 
 
 def parseCommand(cmd):
@@ -29,6 +33,9 @@ class Command(object):
     def getBytes(self):
         return [self.head, self.param, 0x55]
 
+    def applyTo(self, zone):
+        pass  # For extension
+
     def __repr__(self):
         return "{0:=#04x} {1:=#04x} {2:=#04x} ({3})".format(self.head, self.param, 0x55, self.__class__.__name__)
 
@@ -43,42 +50,60 @@ class AllOnCommand(Command):
         Command.__init__(self, 0x42, 0x0)
 
 
-class Group1OnCommand(Command):
+class GroupCommand(Command):
+    def applyTo(self, zone):
+        if zone.id != self.group:
+            logging.error("Group command was applied to incorrect group!")
+        else:
+            self.reallyApplyTo(zone)
+
+
+class TurnOnCommand(object):
+    def reallyApplyTo(self, zone):
+        zone.on = True
+
+
+class TurnOffCommand(object):
+    def reallyApplyTo(self, zone):
+        zone.off = True
+
+
+class Group1OnCommand(GroupCommand, TurnOnCommand):
     def __init__(self):
         Command.__init__(self, 0x45, 0x0, 1)
 
 
-class Group1OffCommand(Command):
+class Group1OffCommand(GroupCommand, TurnOffCommand):
     def __init__(self):
         Command.__init__(self, 0x46, 0x0, 1)
 
 
-class Group2OnCommand(Command):
+class Group2OnCommand(GroupCommand, TurnOnCommand):
     def __init__(self):
         Command.__init__(self, 0x47, 0x0, 2)
 
 
-class Group2OffCommand(Command):
+class Group2OffCommand(GroupCommand, TurnOffCommand):
     def __init__(self):
         Command.__init__(self, 0x48, 0x0, 2)
 
 
-class Group3OnCommand(Command):
+class Group3OnCommand(GroupCommand, TurnOnCommand):
     def __init__(self):
         Command.__init__(self, 0x49, 0x0, 3)
 
 
-class Group3OffCommand(Command):
+class Group3OffCommand(GroupCommand, TurnOffCommand):
     def __init__(self):
         Command.__init__(self, 0x4A, 0x0, 3)
 
 
-class Group4OnCommand(Command):
+class Group4OnCommand(GroupCommand, TurnOnCommand):
     def __init__(self):
         Command.__init__(self, 0x4B, 0x0, 4)
 
 
-class Group4OffCommand(Command):
+class Group4OffCommand(GroupCommand, TurnOffCommand):
     def __init__(self):
         Command.__init__(self, 0x4C, 0x0, 4)
 

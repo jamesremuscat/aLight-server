@@ -9,7 +9,7 @@ class Mode(Enum):
 class Zone(object):
 
     def __init__(self, zoneID):
-        self.zoneID = zoneID
+        self.id = zoneID
         self.on = False
         self.whiteBrightness = 0
         self.colourBrightness = 0
@@ -20,7 +20,17 @@ class Zone(object):
 class Zones(object):
     def __init__(self):
         self.zones = {1: Zone(1), 2: Zone(2), 3: Zone(3), 4: Zone(4)}
-        self.activeZone = 0
+        self.activeZone = None
+
+    def handleCommand(self, cmd):
+        if cmd.group == ZoneConstants.ALL:
+            pass
+        elif cmd.group == ZoneConstants.ACTIVE:
+            if self.activeZone is not None:
+                cmd.applyTo(self.zones[self.activeZone])
+        else:
+            cmd.applyTo(self.zones[cmd.group])
+            self.activeZone = cmd.group
 
 
 class ZoneConstants(Enum):
