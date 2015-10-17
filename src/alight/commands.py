@@ -1,3 +1,6 @@
+from alight.state import ZoneConstants
+
+
 def parseCommand(cmd):
     if len(cmd) != 3:
         raise InvalidCommandException(cmd)
@@ -18,7 +21,7 @@ def parseCommand(cmd):
 
 
 class Command(object):
-    def __init__(self, head, param, group=0):
+    def __init__(self, head, param, group=ZoneConstants.ALL):
         self.head = head
         self.param = param
         self.group = group
@@ -79,12 +82,12 @@ class Group4OffCommand(Command):
 
 class BrightnessCommand(Command):
     def __init__(self, brightnessHex):
-        Command.__init__(self, 0x4E, brightnessHex, None)
+        Command.__init__(self, 0x4E, brightnessHex, ZoneConstants.ACTIVE)
 
 
 class HueCommand(Command):
     def __init__(self, hueHex):
-        Command.__init__(self, 0x40, hueHex, None)
+        Command.__init__(self, 0x40, hueHex, ZoneConstants.ACTIVE)
 
 
 class InvalidCommandException(Exception):
